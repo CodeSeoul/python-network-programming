@@ -7,12 +7,7 @@ name = "pypi"
 
 [dev-packages]
 mypy = "*"
-pytest-asyncio = "*"
-pytest = "*"
-pytest-cov = "*"
-pytest-env = "*"
 black = "*"
-pytest-dotenv = "==0.5.2"
 ruff = "*"
 
 [requires]
