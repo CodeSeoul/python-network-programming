@@ -34,15 +34,28 @@ class HTTPRequest:
         lines: list[bytes] = data.split(b"\r\n")
         request_lines: bytes = lines[0]
 
-        body = {}
-        headers = {}
-        for line in lines[1:]:
+        empty_idx_arr: list[int] = [i for i in range(len(lines)) if len(lines[i].decode()) == 0]
+        if empty_idx_arr:
+            empty_idx = empty_idx_arr[0]
+        else:
+            empty_idx = len(lines)
+
+        body: dict[str, Any] = {}
+        headers: dict[str, Any] = {}
+        for line in lines[1:empty_idx]:
             if b":" in line:
                 try:
-                    body = json.loads(line.decode())
-                except ValueError:
                     key, value = line.decode().split(": ")
                     headers[key] = value
+                except Exception:
+                    ...
+
+        if headers.get("Content-Type") == "application/json":
+            raw_body_bytes: bytes = lines[empty_idx + 1]
+            try:
+                body.update(json.loads(raw_body_bytes.decode()))
+            except Exception:
+                ...
 
         words: list[bytes] = request_lines.split(b" ")
         method: str = words[0].decode()  # call decode to convert bytes to str
