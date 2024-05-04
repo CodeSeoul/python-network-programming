@@ -38,6 +38,8 @@ class TCPServer:
             print("Connected by", address)
             data: bytes = self.buffer_read(client_socket=client_socket)
             self.handle_request(data=data, client_socket=client_socket)
+
+            # to allow multiple connections:
             # threading.Thread(
             #     target=self.handle_request,
             #     args=(data, connection),
