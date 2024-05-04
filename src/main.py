@@ -9,5 +9,3 @@ def main():
 if __name__ == "__main__":
     server = HTTPServer()
     server.start()
-    # server = TCPServer()
-    # server.start()

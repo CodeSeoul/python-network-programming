@@ -8,10 +8,10 @@ class HTTPRequest:
         headers: dict[str, Any],
         method: str,
         body: dict[str, Any],
-        uri: str | None = None,
+        uri: str | None = None,  # URI stands for Uniform Resource Identifier
         http_version: bytes = b"1.1",
     ):
-        # call self.parse() method to parse the request data
+        # URL stands for Uniform Resource Locator
         self.headers: dict[str, Any] = headers
         self.method: str = method
         self.uri: str | None = uri

@@ -37,6 +37,7 @@ class TCPServer:
             client_socket, address = server.accept()
             print("Connected by", address)
             data: bytes = self.buffer_read(client_socket=client_socket)
+            # data = client_socket.recv(4096)
             self.handle_request(data=data, client_socket=client_socket)
 
             # to allow multiple connections:

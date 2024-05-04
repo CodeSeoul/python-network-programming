@@ -51,11 +51,30 @@ class HTTPServer(TCPServer):
         )
 
     @staticmethod
+    def handle_delete(request: HTTPRequest) -> bytes:
+        assert request.uri is not None
+        filename = request.uri.strip("/")
+        path: str = f"{os.getcwd()}/files/{filename}"
+
+        if os.path.exists(path):
+            status_code = 200
+            os.remove(path)
+            response_body = b"<h1>Success/h1>"
+        else:
+            status_code = 404
+            response_body = b"<h1>404 Not Found</h1>"
+
+        return HTTPResponse.encode_to_response(
+            status_code=status_code,
+            extra_headers=None,
+            response_body=response_body,
+        )
+
+    @staticmethod
     def handle_501(request: HTTPRequest | None = None, error_message: str | None = None) -> bytes:
         status_code = 501
 
         response_body = f"<h1>501 Internal Server Error: {error_message}</h1>"
-
         return HTTPResponse.encode_to_response(
             status_code=status_code,
             extra_headers=None,
@@ -68,6 +87,8 @@ class HTTPServer(TCPServer):
                 return self.handle_get
             case "POST":
                 return self.handle_post
+            case "DELETE":
+                return self.handle_delete
             case _:
                 return self.handle_501
 
