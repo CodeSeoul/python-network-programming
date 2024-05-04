@@ -32,16 +32,15 @@ class HTTPServer(TCPServer):
     def handle_post(request: HTTPRequest) -> bytes:
         path: str = f"{os.getcwd()}/files/hello_{request.body['name'].lower()}.html"
         data = f"""
-        <html>
-            <head>
-                <title>Hello {request.body["name"]}</title>
-            </head>
-            <body>
-                <h1>{request.body["name"]}'s page</h1>
-                <p>{request.body["name"]} created a new post</p>
-            </body>
-        </html>
-        """
+<html>
+    <head>
+        <title>Hello {request.body["name"]}</title>
+    </head>
+    <body>
+        <h1>{request.body["name"]}'s page</h1>
+        <p>{request.body["name"]} created a new post</p>
+    </body>
+</html>"""
 
         with open(path, "w+") as f:
             f.write(data.strip())
